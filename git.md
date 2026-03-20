@@ -167,6 +167,12 @@ git checkout v1
 git reset --hard 9dd6c7d2d171e5d1b4367090e792fdefe93bfd41
 ```
 
+### 6.9 Reset local to a specific commit (destroys everything after it)
+
+```
+git reset --hard <commit-hash>
+```
+
 ## 7. Working with Branches
 
 ### 7.1 Check branches
