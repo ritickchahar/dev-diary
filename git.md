@@ -328,15 +328,65 @@ touch .gitignore
 **/directory/subdirectory
 ```
 
-## 10. Advanced Operations
+## 10. Git Stash
 
-### 10.1 View reference logs (history of HEAD movements)
+### 10.1 Stash current changes
+
+```
+git stash
+```
+
+### 10.2 Stash with a message
+
+```
+git stash save "message"
+```
+
+### 10.3 List all stashes
+
+```
+git stash list
+```
+
+### 10.4 Apply the most recent stash (keeps it in stash list)
+
+```
+git stash apply
+```
+
+### 10.5 Apply and remove the most recent stash
+
+```
+git stash pop
+```
+
+### 10.6 Apply a specific stash
+
+```
+git stash apply stash@{index}
+```
+
+### 10.7 Drop a specific stash
+
+```
+git stash drop stash@{index}
+```
+
+### 10.8 Clear all stashes
+
+```
+git stash clear
+```
+
+## 11. Advanced Operations
+
+### 11.1 View reference logs (history of HEAD movements)
 
 ```
 git reflog
 ```
 
-### 10.2 Delete a git repository
+### 11.2 Delete a git repository
 
 ```
 rm -fr .git
