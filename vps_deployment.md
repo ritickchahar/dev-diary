@@ -213,6 +213,47 @@ the app and a database is an OOM risk mid-deploy, and it wastes shared vCPU.
    7.6. Tag every build with **both** `:latest` and `:<git-sha>`. The sha tag is the rollback handle:
    point the compose image at `:<good-sha>` and `docker compose up -d`.
 
+   7.7. **Wiring the deploy SSH key + secrets (the exact steps).** The build job needs nothing but
+   `GITHUB_TOKEN`; the deploy job is the one that needs the box's credentials.
+
+   - Generate a **dedicated, passphrase-less** deploy key — the runner can't type a passphrase, and
+     you don't want to reuse your personal key:
+
+     ```bash
+     ssh-keygen -t ed25519 -f deploy_key -N '' -C "gh-actions-deploy"
+     ```
+
+     (In PowerShell, empty passphrase is `-N '""'`; in bash/Git Bash it's `-N ''`.)
+
+   - Install the **public** half on the VPS, logged in as the deploy user. It lands in *whoever you're
+     currently logged in as* → that user must equal the `VPS_USER` secret:
+
+     ```bash
+     mkdir -p ~/.ssh && echo '<contents of deploy_key.pub>' >> ~/.ssh/authorized_keys \
+       && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+     ```
+
+   - Paste the **private** half (`deploy_key`, the whole `-----BEGIN…END-----` block) into the
+     `VPS_SSH_KEY` **repository** secret (Settings → Secrets and variables → Actions → *Repository
+     secrets*, not *Environment secrets*).
+   - Sanity-check the key before re-running CI: `ssh -i deploy_key <VPS_USER>@<VPS_IPv4> "echo ok"`.
+   - Delete the local `deploy_key` / `deploy_key.pub` once the secret is saved.
+
+   7.8. **Gotcha — `VPS_HOST` must be IPv4.** `curl ifconfig.me` on the box often returns the *IPv6*
+   address, and GitHub-hosted runners have **no IPv6 outbound**, so `ssh`/`ssh-keyscan` to a v6 host
+   silently fails. Force IPv4:
+
+   ```bash
+   curl -s4 ifconfig.me
+   ```
+
+   7.9. **Gotcha — empty-secret failure looks like a key problem but isn't.** If the *"Authorize the
+   runner against the VPS"* step fails and its log shows `echo "" > ~/.ssh/id_ed25519` and
+   `ssh-keyscan -H ""`, the secrets simply aren't set (the `${{ secrets.* }}` expanded to empty
+   strings) — nothing to do with the key itself. Add the five secrets, then **Actions → the failed run
+   → Re-run failed jobs**. The build job's image is already in GHCR, so only the deploy job re-runs; no
+   rebuild.
+
 8. **Free-tier Actions facts**
 
    | Repo visibility | Minutes | Card required |
