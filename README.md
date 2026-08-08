@@ -14,6 +14,7 @@ A personal, no-fluff collection of notes, shortcuts, and commands for everyday d
 | UV          | Python package manager commands      | [uv.md](uv.md) |
 | VPS Deployment | VPS + Cloudflare + Caddy + Docker + GitHub Actions CI/CD | [vps_deployment.md](vps_deployment.md) |
 | Amplify SPA static files | Debugging static files 404-ing on Amplify + CloudFront | [amplify_spa_static_files.md](amplify_spa_static_files.md) |
+| AWS EC2 SSH | Connecting to EC2 with a PEM key + `~/.ssh/config` shortcut | [aws_ec2_ssh.md](aws_ec2_ssh.md) |
 
 ## 📌 Purpose
 
