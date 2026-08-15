@@ -55,6 +55,7 @@ jump straight to what you need.
 | **VPS Deployment** | VPS + Cloudflare + Caddy + Docker + GitHub Actions CI/CD | [vps_deployment.md](vps_deployment.md) |
 | **AWS EC2 SSH** | Connecting to EC2 with a PEM key + `~/.ssh/config` shortcut | [aws_ec2_ssh.md](aws_ec2_ssh.md) |
 | **Amplify SPA Static Files** | Debugging static files 404-ing on Amplify + CloudFront | [amplify_spa_static_files.md](amplify_spa_static_files.md) |
+| **Mongo Backup to Google Drive** | Daily encrypted off-box backup with rclone, gpg + cron | [mongo_backup_gdrive.md](mongo_backup_gdrive.md) |
 
 ### 🐍 Python
 | Topic | Description | Link |
@@ -102,6 +103,7 @@ dev-diary/
 ├── vps_deployment.md             # Deployment runbook
 ├── aws_ec2_ssh.md                # SSH into EC2 with a PEM key
 ├── amplify_spa_static_files.md   # Amplify/CloudFront static-file 404s
+├── mongo_backup_gdrive.md        # Daily encrypted Mongo backup to Google Drive
 ├── uv.md                         # Python package manager
 ├── async_api.md                  # Async APIs & background tasks
 ├── azure_blob_storage.md         # Cloud storage
